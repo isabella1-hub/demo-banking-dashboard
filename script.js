@@ -1,92 +1,70 @@
-function login() {
-  const email = prompt("Enter your email:");
-  const password = prompt("Enter your password:");
-
-  const user = users.find(u => u.email === email && u.password === password);
-  if (user) {
-    activeUser = user;
-    alert(Welcome ${user.name}!);
-    document.querySelector(".balance").textContent = formatBalance(activeUser.balance);
-  } else {
-    alert("Invalid email or password. Try again.");
-    login(); // Retry login
-  }
-}
-
-// Call login when page loads
-login();
-
 // =====================
 // Demo Banking Dashboard
 // =====================
 
-// Fake user data (for demo)
+// Fake user data
 let user = {
   name: "Kim Castro",
   balance: 880315,
 };
 
-// Function to format balance
+// Format balance
 function formatBalance(amount) {
   return "$" + amount.toLocaleString();
 }
 
-// Show balance on the page
+// Run after page loads
 document.addEventListener("DOMContentLoaded", () => {
+
+  // Show balance
   const balanceElement = document.querySelector(".balance");
   if (balanceElement) {
     balanceElement.textContent = formatBalance(user.balance);
   }
-});
 
-// =====================
-// Button Interactions
-// =====================
-
-// Top Up button
-document.querySelector(".topup").addEventListener("click", () => {
-  let amount = prompt("Enter top-up amount:");
-  amount = Number(amount);
-  if (!isNaN(amount) && amount > 0) {
-    user.balance += amount;
-    document.querySelector(".balance").textContent = formatBalance(user.balance);
-    alert(Top-up successful! New balance: ${formatBalance(user.balance)});
-  } else {
-    alert("Invalid amount");
-  }
-});
-
-// Send button
-document.querySelector(".send").addEventListener("click", () => {
-  let amount = prompt("Enter amount to send:");
-  amount = Number(amount);
-  if (!isNaN(amount) && amount > 0) {
-    if (amount > user.balance) {
-      alert("Insufficient funds");
+  // Top Up
+  document.querySelector(".topup").addEventListener("click", () => {
+    let amount = Number(prompt("Enter top-up amount:"));
+    if (!isNaN(amount) && amount > 0) {
+      user.balance += amount;
+      balanceElement.textContent = formatBalance(user.balance);
+      alert(`Top-up successful! New balance: ${formatBalance(user.balance)}`);
     } else {
-      user.balance -= amount;
-      document.querySelector(".balance").textContent = formatBalance(user.balance);
-      alert(Demo transfer successful! New balance: ${formatBalance(user.balance)});
+      alert("Invalid amount");
     }
-  } else {
-    alert("Invalid amount");
-  }
-});
+  });
 
-// Receive button
-document.querySelector(".receive").addEventListener("click", () => {
-  let amount = prompt("Enter amount to receive:");
-  amount = Number(amount);
-  if (!isNaN(amount) && amount > 0) {
-    user.balance += amount;
-    document.querySelector(".balance").textContent = formatBalance(user.balance);
-    alert(Demo receive successful! New balance: ${formatBalance(user.balance)});
-  } else {
-    alert("Invalid amount");
-  }
-});
+  // Send
+  document.querySelector(".send").addEventListener("click", () => {
+    let amount = Number(prompt("Enter amount to send:"));
+    if (!isNaN(amount) && amount > 0) {
+      if (amount > user.balance) {
+        alert("Insufficient funds");
+      } else {
+        user.balance -= amount;
+        balanceElement.textContent = formatBalance(user.balance);
+        alert(`Transfer successful! New balance: ${formatBalance(user.balance)}`);
+      }
+    } else {
+      alert("Invalid amount");
+    }
+  });
 
-// More button (placeholder)
-document.querySelector(".more").addEventListener("click", () => {
-  alert("More options coming soon...");
+  // Receive
+  document.querySelector(".receive").addEventListener("click", () => {
+    let amount = Number(prompt("Enter amount to receive:"));
+    if (!isNaN(amount) && amount > 0) {
+      user.balance += amount;
+      balanceElement.textContent = formatBalance(user.balance);
+      alert(`Receive successful! New balance: ${formatBalance(user.balance)}`);
+    } else {
+      alert("Invalid amount");
+    }
+  });
+
+  // More
+  document.querySelector(".more").addEventListener("click", () => {
+    alert("More options coming soon...");
+  });
+
 });
