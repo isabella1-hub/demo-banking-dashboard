@@ -1,60 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo Bank Dashboard</title>
+  <title>Login - Demo Bank</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="dashboard">
-    <!-- Header -->
-    <header class="header">
-      <div class="greeting">
-        <img src="profile.jpg" class="profile">
-        <span>Good Evening 👋</span>
-        <h2>Kim Castro</h2>
-      </div>
-      <div class="icons">
-        <button class="moon">🌙</button>
-        <button class="bell">🔔</button>
-      </div>
-    </header>
-
-    <!-- Balance Card -->
-    <div class="balance-card">
-      <div class="bank-name">QUANTIVEOU BANK</div>
-      <div class="account">Fiat Account •••• 6702</div>
-      <h1 class="balance">$880,315.00</h1>
-      <div class="status active">Active</div>
-      <div class="last-updated">Last updated: Mar 22, 14:23</div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="actions">
-      <button class="topup">Top Up</button>
-      <button class="send">Send</button>
-      <button class="receive">Receive</button>
-      <button class="more">More</button>
-    </div>
-
-    <!-- Quick Transfer -->
-    <div class="quick-transfer">
-      <h3>Quick Transfer</h3>
-      <button>Add New</button>
-      <div>No saved beneficiaries</div>
-    </div>
-
-    <!-- Active Cards -->
-    <div class="active-cards">
-      <button>Activity</button>
-      <button>Transfer</button>
-      <button class="home">Home</button>
-      <button>Cards</button>
-      <button>Profile</button>
-    </div>
+  <div class="login-container">
+    <h2>Login</h2>
+    
+    <input type="email" id="email" placeholder="Enter Email"><br><br>
+    <input type="password" id="password" placeholder="Enter Password"><br><br>
+    
+    <button onclick="login()">Login</button>
   </div>
 
-  <script src="script.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
