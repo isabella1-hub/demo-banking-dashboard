@@ -1,3 +1,21 @@
+function login() {
+  const email = prompt("Enter your email:");
+  const password = prompt("Enter your password:");
+
+  const user = users.find(u => u.email === email && u.password === password);
+  if (user) {
+    activeUser = user;
+    alert(Welcome ${user.name}!);
+    document.querySelector(".balance").textContent = formatBalance(activeUser.balance);
+  } else {
+    alert("Invalid email or password. Try again.");
+    login(); // Retry login
+  }
+}
+
+// Call login when page loads
+login();
+
 // =====================
 // Demo Banking Dashboard
 // =====================
