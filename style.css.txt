@@ -1,0 +1,51 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0d0f20;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #3f9cff, #00d4ff);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.actions, .quick-transfer, .active-cards {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #1a1c2a;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+button.home {
+  background-color: #3f9cff;
+}
