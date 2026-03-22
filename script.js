@@ -52,21 +52,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === Send money ===
   document.querySelector(".send").addEventListener("click", () => {
-    let receiverEmail = prompt("Enter recipient email:");
-    let amount = Number(prompt("Enter amount to send:"));
+  let accountNumber = prompt("Enter recipient account number:");
+  let bankName = prompt("Enter bank name:");
+  let amount = Number(prompt("Enter amount to send:"));
 
-    const receiver = users.find(u => u.email === receiverEmail);
-    if (!receiver) return alert("Recipient not found");
-    if (amount > activeUser.balance) return alert("Insufficient funds");
+     const receiver = users.find(
+    u => u.accountNumber === accountNumber && u.bankName === bankName
+  );
 
-    activeUser.balance -= amount;
-    receiver.balance += amount;
-    balanceElement.textContent = formatBalance(activeUser.balance);
+  if (!receiver) return alert("Account not found");
 
-    alert(
-      `Demo Transfer Successful!\nFrom: ${activeUser.name}\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nReference: TXN${Math.floor(Math.random()*1000000)}`
-    );
-  });
+  if (amount > activeUser.balance) return alert("Insufficient funds");
+
+  // Perform demo transfer
+  activeUser.balance -= amount;
+  receiver.balance += amount;
+
+  document.querySelector(".balance").textContent = formatBalance(activeUser.balance);
+
+  alert(
+    Transfer Successful!\n\nTo: ${receiver.name}\nBank: ${receiver.bankName}\nAcct: ${receiver.accountNumber}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random()*1000000)}
+  );
+});
 
   // === Receive money (manual top-up simulation) ===
   document.querySelector(".receive").addEventListener("click", () => {
