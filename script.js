@@ -1,11 +1,5 @@
-let activeUser = JSON.parse(localStorage.getItem("user"));
-
-if (!activeUser) {
-  window.location.href = "login.html";
-}
-
 // =====================
-// Demo Banking Dashboard (Multi-User)
+// Demo Banking Dashboard (Multi-User with localStorage)
 // =====================
 
 // Users data
@@ -15,43 +9,31 @@ let users = [
   { id: 3, name: "Mary Jane", email: "mary@example.com", password: "pass", balance: 75000, accountNumber: "333333", bankName: "Bank C" },
 ];
 
-let activeUser = null;
+// Get active user from localStorage
+let activeUser = JSON.parse(localStorage.getItem("user"));
+
+// Redirect to login if no user found
+if (!activeUser) {
+  window.location.href = "login.html";
+}
 
 // Format balance
 function formatBalance(amount) {
   return "$" + amount.toLocaleString();
 }
 
-// Login function
-function login() {
-  const email = prompt("Enter your email:");
-  const password = prompt("Enter your password:");
-
-  const user = users.find(u => u.email === email && u.password === password);
-  if (user) {
-    activeUser = user;
-    alert(`Welcome ${user.name}!`);
-    document.querySelector(".balance").textContent = formatBalance(activeUser.balance);
-  } else {
-    alert("Invalid email or password. Try again.");
-    login(); // Retry login
-  }
-}
-
-// Run after page loads
+// Update balance display immediately
 document.addEventListener("DOMContentLoaded", () => {
-  
-  // Trigger login first
-  login();
-
   const balanceElement = document.querySelector(".balance");
+  balanceElement.textContent = "$" + activeUser.balance.toLocaleString();
 
   // === Top-up ===
   document.querySelector(".topup").addEventListener("click", () => {
     let amount = Number(prompt("Enter top-up amount:"));
     if (amount > 0) {
       activeUser.balance += amount;
-      balanceElement.textContent = formatBalance(activeUser.balance);
+      localStorage.setItem("user", JSON.stringify(activeUser));
+      balanceElement.textContent = "$" + activeUser.balance.toLocaleString();
       alert(`Top-up successful! New balance: ${formatBalance(activeUser.balance)}`);
     } else alert("Invalid amount");
   });
@@ -81,19 +63,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // Perform transfer
     activeUser.balance -= amount;
     receiver.balance += amount;
-    balanceElement.textContent = formatBalance(activeUser.balance);
+    localStorage.setItem("user", JSON.stringify(activeUser));
+    balanceElement.textContent = "$" + activeUser.balance.toLocaleString();
 
     alert(
       `Transfer Successful!\n\nFrom: ${activeUser.name}\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nReference: TXN${Math.floor(Math.random() * 1000000)}`
     );
   });
 
-  // === Receive money (manual top-up simulation) ===
+  // === Receive money ===
   document.querySelector(".receive").addEventListener("click", () => {
     let amount = Number(prompt("Enter amount to receive:"));
     if (amount > 0) {
       activeUser.balance += amount;
-      balanceElement.textContent = formatBalance(activeUser.balance);
+      localStorage.setItem("user", JSON.stringify(activeUser));
+      balanceElement.textContent = "$" + activeUser.balance.toLocaleString();
       alert(`Receive successful! New balance: ${formatBalance(activeUser.balance)}`);
     } else alert("Invalid amount");
   });
@@ -102,5 +86,4 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".more").addEventListener("click", () => {
     alert("More options coming soon...");
   });
-
 });
