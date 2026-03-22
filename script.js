@@ -38,39 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else alert("Invalid amount");
   });
 
-  // === Send money ===
-  document.querySelector(".send").addEventListener("click", () => {
-    const method = prompt("Send by: 1 = Email, 2 = Account Number + Bank").trim();
-
-    let receiver;
-    let amount = Number(prompt("Enter amount to send:"));
-    if (amount <= 0) return alert("Invalid amount");
-    if (amount > activeUser.balance) return alert("Insufficient funds");
-
-    if (method === "1") {
-      const receiverEmail = prompt("Enter recipient email:");
-      receiver = users.find(u => u.email === receiverEmail);
-      if (!receiver) return alert("Recipient not found");
-    } else if (method === "2") {
-      const accountNumber = prompt("Enter recipient account number:");
-      const bankName = prompt("Enter bank name:");
-      receiver = users.find(u => u.accountNumber === accountNumber && u.bankName === bankName);
-      if (!receiver) return alert("Account not found");
-    } else {
-      return alert("Invalid option");
-    }
-
-    // Perform transfer
-    activeUser.balance -= amount;
-    receiver.balance += amount;
-    localStorage.setItem("user", JSON.stringify(activeUser));
-    balanceElement.textContent = "$" + activeUser.balance.toLocaleString();
-
-    alert(
-      `Transfer Successful!\n\nFrom: ${activeUser.name}\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nReference: TXN${Math.floor(Math.random() * 1000000)}`
-    );
-  });
-
   // === Receive money ===
   document.querySelector(".receive").addEventListener("click", () => {
     let amount = Number(prompt("Enter amount to receive:"));
@@ -87,3 +54,30 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("More options coming soon...");
   });
 });
+
+// === Send Money via Form ===
+function sendMoney() {
+  let accountNumber = document.getElementById("accountNumber").value;
+  let bankName = document.getElementById("bankName").value;
+  let amount = Number(document.getElementById("amount").value);
+
+  if (!accountNumber || !bankName || amount <= 0) {
+    return alert("Fill all fields correctly");
+  }
+
+  if (amount > activeUser.balance) {
+    return alert("Insufficient funds");
+  }
+
+  activeUser.balance -= amount;
+
+  // Save updated user
+  localStorage.setItem("user", JSON.stringify(activeUser));
+
+  document.querySelector(".balance").textContent =
+    "$" + activeUser.balance.toLocaleString();
+
+  alert(
+    `Transfer Successful!\n\nAcct: ${accountNumber}\nBank: ${bankName}\nAmount: $${amount}\nRef: TXN${Math.floor(Math.random()*1000000)}`
+  );
+}
