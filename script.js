@@ -38,50 +38,47 @@ document.addEventListener("DOMContentLoaded", () => {
   // Trigger login first
   login();
 
-  // Show balance element
   const balanceElement = document.querySelector(".balance");
 
-  // Top Up
+  // === Top-up ===
   document.querySelector(".topup").addEventListener("click", () => {
     let amount = Number(prompt("Enter top-up amount:"));
-    if (!isNaN(amount) && amount > 0) {
+    if (amount > 0) {
       activeUser.balance += amount;
       balanceElement.textContent = formatBalance(activeUser.balance);
       alert(`Top-up successful! New balance: ${formatBalance(activeUser.balance)}`);
-    } else {
-      alert("Invalid amount");
-    }
+    } else alert("Invalid amount");
   });
 
-  // Send
+  // === Send money ===
   document.querySelector(".send").addEventListener("click", () => {
+    let receiverEmail = prompt("Enter recipient email:");
     let amount = Number(prompt("Enter amount to send:"));
-    if (!isNaN(amount) && amount > 0) {
-      if (amount > activeUser.balance) {
-        alert("Insufficient funds");
-      } else {
-        activeUser.balance -= amount;
-        balanceElement.textContent = formatBalance(activeUser.balance);
-        alert(`Transfer successful! New balance: ${formatBalance(activeUser.balance)}`);
-      }
-    } else {
-      alert("Invalid amount");
-    }
+
+    const receiver = users.find(u => u.email === receiverEmail);
+    if (!receiver) return alert("Recipient not found");
+    if (amount > activeUser.balance) return alert("Insufficient funds");
+
+    activeUser.balance -= amount;
+    receiver.balance += amount;
+    balanceElement.textContent = formatBalance(activeUser.balance);
+
+    alert(
+      `Demo Transfer Successful!\nFrom: ${activeUser.name}\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nReference: TXN${Math.floor(Math.random()*1000000)}`
+    );
   });
 
-  // Receive
+  // === Receive money (manual top-up simulation) ===
   document.querySelector(".receive").addEventListener("click", () => {
     let amount = Number(prompt("Enter amount to receive:"));
-    if (!isNaN(amount) && amount > 0) {
+    if (amount > 0) {
       activeUser.balance += amount;
       balanceElement.textContent = formatBalance(activeUser.balance);
       alert(`Receive successful! New balance: ${formatBalance(activeUser.balance)}`);
-    } else {
-      alert("Invalid amount");
-    }
+    } else alert("Invalid amount");
   });
 
-  // More
+  // More options
   document.querySelector(".more").addEventListener("click", () => {
     alert("More options coming soon...");
   });
