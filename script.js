@@ -4,9 +4,9 @@
 
 // Users data
 let users = [
-  { id: 1, name: "Kim Castro", email: "kim@example.com", password: "1234", balance: 880315 },
-  { id: 2, name: "John Doe", email: "john@example.com", password: "abcd", balance: 50000 },
-  { id: 3, name: "Mary Jane", email: "mary@example.com", password: "pass", balance: 75000 },
+  { id: 1, name: "Kim Castro", email: "kim@example.com", password: "1234", balance: 880315, accountNumber: "111111", bankName: "Bank A" },
+  { id: 2, name: "John Doe", email: "john@example.com", password: "abcd", balance: 50000, accountNumber: "222222", bankName: "Bank B" },
+  { id: 3, name: "Mary Jane", email: "mary@example.com", password: "pass", balance: 75000, accountNumber: "333333", bankName: "Bank C" },
 ];
 
 let activeUser = null;
@@ -52,28 +52,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === Send money ===
   document.querySelector(".send").addEventListener("click", () => {
-  let accountNumber = prompt("Enter recipient account number:");
-  let bankName = prompt("Enter bank name:");
-  let amount = Number(prompt("Enter amount to send:"));
+    const method = prompt("Send by: 1 = Email, 2 = Account Number + Bank").trim();
 
-     const receiver = users.find(
-    u => u.accountNumber === accountNumber && u.bankName === bankName
-  );
+    let receiver;
+    let amount = Number(prompt("Enter amount to send:"));
+    if (amount <= 0) return alert("Invalid amount");
+    if (amount > activeUser.balance) return alert("Insufficient funds");
 
-  if (!receiver) return alert("Account not found");
+    if (method === "1") {
+      const receiverEmail = prompt("Enter recipient email:");
+      receiver = users.find(u => u.email === receiverEmail);
+      if (!receiver) return alert("Recipient not found");
+    } else if (method === "2") {
+      const accountNumber = prompt("Enter recipient account number:");
+      const bankName = prompt("Enter bank name:");
+      receiver = users.find(u => u.accountNumber === accountNumber && u.bankName === bankName);
+      if (!receiver) return alert("Account not found");
+    } else {
+      return alert("Invalid option");
+    }
 
-  if (amount > activeUser.balance) return alert("Insufficient funds");
+    // Perform transfer
+    activeUser.balance -= amount;
+    receiver.balance += amount;
+    balanceElement.textContent = formatBalance(activeUser.balance);
 
-  // Perform demo transfer
-  activeUser.balance -= amount;
-  receiver.balance += amount;
-
-  document.querySelector(".balance").textContent = formatBalance(activeUser.balance);
-
-  alert(
-    Transfer Successful!\n\nTo: ${receiver.name}\nBank: ${receiver.bankName}\nAcct: ${receiver.accountNumber}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random()*1000000)}
-  );
-});
+    alert(
+      `Transfer Successful!\n\nFrom: ${activeUser.name}\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nReference: TXN${Math.floor(Math.random() * 1000000)}`
+    );
+  });
 
   // === Receive money (manual top-up simulation) ===
   document.querySelector(".receive").addEventListener("click", () => {
