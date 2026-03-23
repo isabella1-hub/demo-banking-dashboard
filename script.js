@@ -7,69 +7,79 @@ document.querySelector(".topup").addEventListener("click", () => {
 
     localStorage.setItem("user", JSON.stringify(activeUser)); // SAVE
 
-    const balanceElement = document.querySelector(".balance");
-    
-    alert(`Transfer Successful!\n\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random() * 1000000)}`);
-  } else {
-    alert("Invalid amount");
-  }
-});
+   document.addEventListener("DOMContentLoaded", () => {
 
-// === Send Money ===
-document.querySelector(".send").addEventListener("click", () => {
+  const balanceElement = document.querySelector(".balance");
 
-  const accountNumber = prompt("Enter recipient account number:");
-  const bankName = prompt("Enter bank name:");
-  const amount = Number(prompt("Enter amount to send:"));
+  // === Top-up ===
+  document.querySelector(".topup").addEventListener("click", () => {
+    let amount = Number(prompt("Enter top-up amount:"));
 
-  if (!accountNumber || !bankName || amount <= 0) {
-    return alert("Invalid input");
-  }
+    if (amount > 0) {
+      activeUser.balance += amount;
+      localStorage.setItem("user", JSON.stringify(activeUser));
 
-  if (amount > activeUser.balance) {
-    return alert("Insufficient funds");
-  }
+      balanceElement.textContent = formatBalance(activeUser.balance);
 
-  const receiver = users.find(
-    u => u.accountNumber === accountNumber && u.bankName === bankName
-  );
+      alert(`Top-up successful! New balance: ${formatBalance(activeUser.balance)}`);
+    } else {
+      alert("Invalid amount");
+    }
+  });
 
-  if (!receiver) {
-    return alert("Account not found");
-  }
+  // === Send Money ===
+  document.querySelector(".send").addEventListener("click", () => {
 
-  // Transfer
-  activeUser.balance -= amount;
-  receiver.balance += amount;
+    const accountNumber = prompt("Enter recipient account number:");
+    const bankName = prompt("Enter bank name:");
+    const amount = Number(prompt("Enter amount to send:"));
 
-  localStorage.setItem("user", JSON.stringify(activeUser)); // SAVE
+    if (!accountNumber || !bankName || amount <= 0) {
+      return alert("Invalid input");
+    }
 
-  balanceElement.textContent = formatBalance(activeUser.balance);
+    if (amount > activeUser.balance) {
+      return alert("Insufficient funds");
+    }
 
-  alert(Transfer Successful!\n\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random() * 1000000)});
-});
+    const receiver = users.find(
+      u => u.accountNumber === accountNumber && u.bankName === bankName
+    );
 
-// === Receive ===
-document.querySelector(".receive").addEventListener("click", () => {
-  let amount = Number(prompt("Enter amount to receive:"));
+    if (!receiver) {
+      return alert("Account not found");
+    }
 
-  if (amount > 0) {
-    activeUser.balance += amount;
+    activeUser.balance -= amount;
+    receiver.balance += amount;
 
-    localStorage.setItem("user", JSON.stringify(activeUser)); // SAVE
+    localStorage.setItem("user", JSON.stringify(activeUser));
 
     balanceElement.textContent = formatBalance(activeUser.balance);
 
-    alert(Receive successful! New balance: ${formatBalance(activeUser.balance)});
-  } else {
-    alert("Invalid amount");
-  }
+    alert(`Transfer Successful!\n\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random() * 1000000)}`);
+  });
+
+  // === Receive ===
+  document.querySelector(".receive").addEventListener("click", () => {
+    let amount = Number(prompt("Enter amount to receive:"));
+
+    if (amount > 0) {
+      activeUser.balance += amount;
+      localStorage.setItem("user", JSON.stringify(activeUser));
+
+      balanceElement.textContent = formatBalance(activeUser.balance);
+
+      alert(`Receive successful! New balance: ${formatBalance(activeUser.balance)}`);
+    } else {
+      alert("Invalid amount");
+    }
+  });
+
 });
 
+// Logout function (outside is fine)
 function logout() {
-  // Remove user from localStorage
   localStorage.removeItem("user");
-
-  // Redirect to login page
   window.location.href = "login.html";
 }
