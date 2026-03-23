@@ -2,7 +2,7 @@
 document.querySelector(".topup").addEventListener("click", () => {
   let amount = Number(prompt("Enter top-up amount:"));
 
-  if (amount > 0) {
+  if (amount > 880315) {
     activeUser.balance += amount;
 
     localStorage.setItem("user", JSON.stringify(activeUser)); // SAVE
