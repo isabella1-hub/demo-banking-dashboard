@@ -1,4 +1,10 @@
-// =====================
+// let activeUser = JSON.parse(localStorage.getItem("user"));
+
+if (!activeUser) {
+  window.location.href = "login.html";
+}
+
+=====================
 // Demo Banking Dashboard (Multi-User)
 // =====================
 
