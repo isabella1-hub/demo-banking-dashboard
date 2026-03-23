@@ -1,5 +1,5 @@
 let users = [
-  { name: "Kim Castro", email: "kim@example.com", password: "1234", balance: 880315 }
+  { name: "Kim Castro", email: "kim@example.com", password: "kim@2026secure", balance: 880315 }
 ];
 
 function login() {
