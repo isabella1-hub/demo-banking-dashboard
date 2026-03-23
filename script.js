@@ -65,3 +65,8 @@ document.querySelector(".receive").addEventListener("click", () => {
     alert("Invalid amount");
   }
 });
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
+}
