@@ -9,7 +9,7 @@ document.querySelector(".topup").addEventListener("click", () => {
 
     balanceElement.textContent = formatBalance(activeUser.balance);
 
-    alert(Top-up successful! New balance: ${formatBalance(activeUser.balance)});
+    alert(`Transfer Successful!\n\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random() * 1000000)}`);
   } else {
     alert("Invalid amount");
   }
