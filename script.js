@@ -7,8 +7,8 @@ document.querySelector(".topup").addEventListener("click", () => {
 
     localStorage.setItem("user", JSON.stringify(activeUser)); // SAVE
 
-    balanceElement.textContent = formatBalance(activeUser.balance);
-
+    const balanceElement = document.querySelector(".balance");
+    
     alert(`Transfer Successful!\n\nTo: ${receiver.name}\nAmount: ${formatBalance(amount)}\nRef: TXN${Math.floor(Math.random() * 1000000)}`);
   } else {
     alert("Invalid amount");
