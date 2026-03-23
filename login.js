@@ -1,5 +1,5 @@
 let users = [
-  { email: "kim@example.com", password: "1234", balance: 880315 }
+  { name: "Kim Castro", email: "kim@example.com", password: "1234", balance: 880315 }
 ];
 
 function login() {
@@ -14,4 +14,8 @@ function login() {
   } else {
     alert("Wrong login details");
   }
+
+  // Optional: clear input fields after login attempt
+  document.getElementById("email").value = "";
+  document.getElementById("password").value = "";
 }
