@@ -67,6 +67,9 @@ document.querySelector(".receive").addEventListener("click", () => {
 });
 
 function logout() {
+  // Remove user from localStorage
   localStorage.removeItem("user");
+
+  // Redirect to login page
   window.location.href = "login.html";
 }
